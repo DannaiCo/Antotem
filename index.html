@@ -1,13 +1,12 @@
-<!DOCTYPE html>
+<!DOCTYPE html> 
 <html lang="es">
 <head>
   <meta charset="UTF-8">
-  <title>Semanasanta</title>
+  <title>fin de año</title>
 
-  <!-- ✅ Fuente correcta -->
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Dela+Gothic+One&display=swap" rel="stylesheet">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Dela+Gothic+One&family=Open+Sans:ital,wght@1,600&display=swap" rel="stylesheet">
 
   <style>
     html, body {
@@ -34,16 +33,18 @@
       left: 0;
       width: 600px;
       height: 1440px;
-      object-fit: fill;
+      object-fit: cover;
       z-index: 0;
     }
 
+    /* 🔻 POSICIONES ESCALADAS PROPORCIONALMENTE */
+
     .contenedor-frase {
       position: absolute;
-      top: 720px;
-      left: 37px;
-      width: 510px;
-      height: 100px;
+      top: 899px;
+      left: 67px;
+      width: 457px;
+      height: 29px;
       display: flex;
       align-items: center;
       justify-content: center;
@@ -51,18 +52,33 @@
     }
 
     #frase {
-      font-size: 70px;
+      font-size: 65px;
       color: white;
-      font-family: "Dela Gothic One", sans-serif;
-      font-weight: 400;
+      font-family: "Open Sans", sans-serif;
+      font-style: italic;
       letter-spacing: 2px;
       text-align: center;
     }
+
+    .contador {
+      position: absolute;
+      top: 567px;
+      left: 30px;
+      width: 90%;
+      text-align: center;
+      font-size: 91px;
+      font-family: "Dela Gothic One", sans-serif;
+      color: #012BFF;
+      line-height: 1;
+      z-index: 2;
+    }
+
   </style>
 </head>
+
 <body>
   <div class="contenedor-total" id="contenedor">
-    
+
     <video id="fondo" autoplay muted loop playsinline>
       <source src="fondo.mp4" type="video/mp4">
     </video>
@@ -71,45 +87,75 @@
       <div id="frase">Cargando frase...</div>
     </div>
 
+    <div class="contador" id="contador"></div>
   </div>
 
-  <script>
-    const frases = [
-       "Aún estás a tiempo de empezar de nuevo.",
-      "Perdonar también te libera.",
-      "Agradecer cambia el día.",
-      "Alguien necesita tu ayuda hoy.",
-      "Una palabra amable cambia el día.",
-      "Hoy puedes elegir la calma.",
-      "Lo simple también transforma.",
-      "Ayudar también te cambia.",
-      "Un momento de silencio ayuda."
-    ];
+<script>
 
-    const elemento = document.getElementById("frase");
+/* FRASES */
 
-    function cambiarFrase() {
-      const randomIndex = Math.floor(Math.random() * frases.length);
-      elemento.textContent = frases[randomIndex];
-    }
+const frases = [
+  "Para: Cantar goles con extraños",
+  "Para: No lavar la camiseta",
+  "Para: Sufrir juntos cada partido",
+  "Para: Vivir 90 min eternos",
+  "Para: Gritarle a la pantalla",
+  "Para: Celebrar como nunca",
+  "Para: Sentirse técnico"
+];
 
-    cambiarFrase();
-    setInterval(cambiarFrase, 10000);
+let index = 0;
+const elemento = document.getElementById("frase");
 
-    function escalarPantalla() {
-      const escalaX = window.innerWidth / 600;
-      const escalaY = window.innerHeight / 1440;
-      const escala = Math.min(escalaX, escalaY);
-      document.getElementById("contenedor").style.transform = `scale(${escala})`;
-    }
+function cambiarFrase() {
+  elemento.textContent = frases[index];
+  index = (index + 1) % frases.length;
+}
 
-    window.addEventListener("resize", escalarPantalla);
-    escalarPantalla();
-  </script>
+cambiarFrase();
+setInterval(cambiarFrase, 5000);
+
+
+/* CONTADOR */
+
+const contador = document.getElementById("contador");
+const fechaMundial = new Date(2026, 5, 11).getTime();
+
+function actualizarContador() {
+
+  const ahora = new Date().getTime();
+  const diferencia = fechaMundial - ahora;
+
+  if (diferencia <= 0) {
+    contador.innerHTML = "HOY INICIA EL MUNDIAL";
+    return;
+  }
+
+  const dias = Math.ceil(
+    diferencia / (1000 * 60 * 60 * 24)
+  );
+
+  contador.innerHTML = dias +  "&nbsp;DÍAS";
+}
+
+actualizarContador();
+setInterval(actualizarContador, 60000);
+
+
+/* ESCALADO */
+
+function escalarPantalla() {
+  const escalaX = window.innerWidth / 600;
+  const escalaY = window.innerHeight / 1440;
+  const escala = Math.min(escalaX, escalaY);
+
+  document.getElementById("contenedor")
+    .style.transform = `scale(${escala})`;
+}
+
+window.addEventListener("resize", escalarPantalla);
+escalarPantalla();
+
+</script>
 </body>
 </html>
-
-
-
-
-
